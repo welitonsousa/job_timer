@@ -6,11 +6,14 @@ import 'controller/register_controller.dart';
 class RegisterModule extends Module {
   @override
   void binds(i) {
-    i.addInstance(RegisterBloc());
+    i.addInstance(RegisterController(authService: Modular.get()));
   }
 
   @override
   void routes(r) {
-    r.child('/', child: (c) => const RegisterPage());
+    r.child(
+      '/',
+      child: (c) => RegisterPage(controller: Modular.get()),
+    );
   }
 }

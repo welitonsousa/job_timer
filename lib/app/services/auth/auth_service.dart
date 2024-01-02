@@ -14,4 +14,6 @@ abstract class AuthService {
   Future<UserCredential> signInWithGoogle();
 
   Future<void> signOut();
+
+  Future<void> reforgedPassword({required String email});
 }

@@ -35,6 +35,8 @@ class _SignPageState extends State<SignPage> {
       listener: (context, state) {
         if (state.status.isError) {
           context.showMessage(state.error!, type: MessageVariant.error);
+        } else if (state.status.isSuccess && state.error != null) {
+          context.showMessage(state.error!, type: MessageVariant.success);
         }
       },
       child: Scaffold(
@@ -104,6 +106,25 @@ class _SignPageState extends State<SignPage> {
               child: const Text('Criar conta'),
               onPressed: () {
                 Modular.to.pushNamed(AppRouters.REGISTER);
+              },
+            ),
+            TextButton(
+              child: const Text('Esqueci minha senha'),
+              onPressed: () {
+                final email = _emailController.text;
+                final res = Zod.validate(
+                  data: {'email': email},
+                  params: {'email': Zod().email()},
+                );
+                if (res.isNotValid) {
+                  context.showMessage(
+                    res.resultSTR.toString(),
+                    type: MessageVariant.error,
+                  );
+                  return;
+                }
+                widget.controller
+                    .reforgedPassword(email: _emailController.text);
               },
             ),
           ]),

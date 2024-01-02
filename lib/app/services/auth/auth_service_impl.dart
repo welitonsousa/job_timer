@@ -22,7 +22,7 @@ class AuthServiceImpl extends AuthService {
     required String email,
     required String password,
   }) {
-    return _auth.createUserWithEmailAndPassword(
+    return _auth.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
@@ -65,5 +65,10 @@ class AuthServiceImpl extends AuthService {
       _googleSignOut(),
       _fireBaseSignOut(),
     ]);
+  }
+
+  @override
+  Future<void> reforgedPassword({required String email}) {
+    return _auth.sendPasswordResetEmail(email: email);
   }
 }
