@@ -1,4 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:job_timer/app/core/database/database.dart';
+import 'package:job_timer/app/core/database/database_impl.dart';
 import 'package:job_timer/app/core/router/app_routers.dart';
 import 'package:job_timer/app/modules/auth/register/register_module.dart';
 import 'package:job_timer/app/modules/auth/sign/sign_module.dart';
@@ -10,6 +12,7 @@ class AppModule extends Module {
   @override
   void binds(i) {
     i.addSingleton<AuthService>(AuthServiceImpl.new);
+    i.addSingleton<Database>(DatabaseImpl.new);
   }
 
   @override

@@ -66,13 +66,9 @@ class SignController extends Cubit<SignState> {
         ));
       } else if (e.code == 'wrong-password') {
         emit(state.copyWith(status: AppStatus.error, error: 'Senha incorreta'));
-      } else if (e.code == 'email-already-in-use') {
-        emit(state.copyWith(
-            status: AppStatus.error, error: 'Email já cadastrado'));
       } else {
         emit(state.copyWith(status: AppStatus.error, error: e.toString()));
       }
-      print(e.code);
     } catch (e) {
       emit(state.copyWith(status: AppStatus.error, error: e.toString()));
     }
