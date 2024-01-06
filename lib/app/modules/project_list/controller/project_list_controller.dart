@@ -22,7 +22,7 @@ class ProjectListController extends Cubit<ProjectListState> {
     } catch (e) {
       emit(state.copyWith(
         status: AppStatus.error,
-        message: 'Não foi possível carregar os projeto as as as s as ss',
+        message: 'Não foi possível carregar os projetos',
       ));
     }
   }

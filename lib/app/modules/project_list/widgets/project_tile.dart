@@ -23,9 +23,11 @@ class _ProjectTileState extends State<ProjectTile> {
   }
 
   double percent = 0;
+  bool redLine = false;
   void calcPercent() {
     final total = widget.project.tasks.fold<int>(0, (p, e) => p + e.duration);
     if (total > 0) percent = total / widget.project.estimate;
+    if (percent > 1) redLine = true;
   }
 
   @override
@@ -49,7 +51,16 @@ class _ProjectTileState extends State<ProjectTile> {
           ),
           Row(
             children: [
-              Expanded(child: LinearProgressIndicator(value: percent)),
+              Expanded(
+                child: LinearProgressIndicator(
+                  value: percent,
+                  minHeight: 5,
+                  borderRadius: const BorderRadius.all(Radius.circular(2)),
+                  valueColor: redLine
+                      ? const AlwaysStoppedAnimation<Color>(Colors.red)
+                      : null,
+                ),
+              ),
               const SizedBox(width: 10),
               Text('${widget.project.estimate}H')
             ],

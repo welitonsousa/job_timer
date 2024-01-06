@@ -1,5 +1,7 @@
 import 'package:fast_ui_kit/fast_ui_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:job_timer/app/core/router/app_routers.dart';
 import 'package:job_timer/app/entities/project_entity.dart';
 import 'package:job_timer/app/modules/project_list/controller/project_list_controller.dart';
 
@@ -41,7 +43,10 @@ class ProjectHeaderActions extends StatelessWidget {
           Expanded(
             child: FastButton(
               label: 'Novo projeto',
-              onPressed: () {},
+              onPressed: () async {
+                final res = await Modular.to.pushNamed(AppRouters.PROJECT_FORM);
+                if (res == true) await controller.initialize();
+              },
             ),
           ),
         ],

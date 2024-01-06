@@ -5,14 +5,14 @@ import './project_form_page.dart';
 class ProjectFormModule extends Module {
   @override
   void binds(i) {
-    i.addInstance(ProjectFormController.new);
+    i.add(ProjectFormController.new);
   }
 
   @override
-  void routes(r) => [
-        r.child(
-          '/',
-          child: (context) => ProjectFormPage(controller: Modular.get()),
-        ),
-      ];
+  void routes(r) {
+    r.child(
+      '/',
+      child: (context) => ProjectFormPage(controller: Modular.get()),
+    );
+  }
 }

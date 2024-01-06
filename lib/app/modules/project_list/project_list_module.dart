@@ -18,7 +18,8 @@ class ProjectListModule extends Module {
 
   @override
   void routes(r) {
-    r.child('/', child: (c) => ProjectListPage(controller: Modular.get()));
+    r.child(AppRouters.PROJECT_LIST,
+        child: (c) => ProjectListPage(controller: Modular.get()));
     r.module(AppRouters.PROJECT_FORM, module: ProjectFormModule());
   }
 }

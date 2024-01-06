@@ -19,6 +19,6 @@ class AppModule extends Module {
   void routes(r) {
     r.module(AppRouters.REGISTER, module: RegisterModule());
     r.module(AppRouters.SIGN_IN, module: SignModule());
-    r.module(AppRouters.PROJECT_LIST, module: ProjectListModule());
+    r.module('/', module: ProjectListModule());
   }
 }
