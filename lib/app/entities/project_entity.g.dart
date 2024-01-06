@@ -17,13 +17,18 @@ const ProjectEntitySchema = CollectionSchema(
   name: r'ProjectEntity',
   id: 2468922193581640369,
   properties: {
-    r'name': PropertySchema(
+    r'estimate': PropertySchema(
       id: 0,
+      name: r'estimate',
+      type: IsarType.long,
+    ),
+    r'name': PropertySchema(
+      id: 1,
       name: r'name',
       type: IsarType.string,
     ),
     r'status': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'status',
       type: IsarType.byte,
       enumMap: _ProjectEntitystatusEnumValueMap,
@@ -66,8 +71,9 @@ void _projectEntitySerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeString(offsets[0], object.name);
-  writer.writeByte(offsets[1], object.status.index);
+  writer.writeLong(offsets[0], object.estimate);
+  writer.writeString(offsets[1], object.name);
+  writer.writeByte(offsets[2], object.status.index);
 }
 
 ProjectEntity _projectEntityDeserialize(
@@ -77,8 +83,9 @@ ProjectEntity _projectEntityDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = ProjectEntity();
+  object.estimate = reader.readLong(offsets[0]);
   object.id = id;
-  object.name = reader.readString(offsets[0]);
+  object.name = reader.readString(offsets[1]);
   return object;
 }
 
@@ -90,22 +97,26 @@ P _projectEntityDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readString(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 1:
+      return (reader.readString(offset)) as P;
+    case 2:
       return (_ProjectEntitystatusValueEnumMap[reader.readByteOrNull(offset)] ??
-          ProjectStatus.IN_PROGRESS) as P;
+          ProjectStatus.ALL) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
 }
 
 const _ProjectEntitystatusEnumValueMap = {
-  'IN_PROGRESS': 0,
-  'FINISHED': 1,
+  'ALL': 0,
+  'IN_PROGRESS': 1,
+  'FINISHED': 2,
 };
 const _ProjectEntitystatusValueEnumMap = {
-  0: ProjectStatus.IN_PROGRESS,
-  1: ProjectStatus.FINISHED,
+  0: ProjectStatus.ALL,
+  1: ProjectStatus.IN_PROGRESS,
+  2: ProjectStatus.FINISHED,
 };
 
 Id _projectEntityGetId(ProjectEntity object) {
@@ -206,6 +217,62 @@ extension ProjectEntityQueryWhere
 
 extension ProjectEntityQueryFilter
     on QueryBuilder<ProjectEntity, ProjectEntity, QFilterCondition> {
+  QueryBuilder<ProjectEntity, ProjectEntity, QAfterFilterCondition>
+      estimateEqualTo(int value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'estimate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ProjectEntity, ProjectEntity, QAfterFilterCondition>
+      estimateGreaterThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'estimate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ProjectEntity, ProjectEntity, QAfterFilterCondition>
+      estimateLessThan(
+    int value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'estimate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ProjectEntity, ProjectEntity, QAfterFilterCondition>
+      estimateBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'estimate',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<ProjectEntity, ProjectEntity, QAfterFilterCondition> idIsNull() {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(const FilterCondition.isNull(
@@ -538,6 +605,19 @@ extension ProjectEntityQueryLinks
 
 extension ProjectEntityQuerySortBy
     on QueryBuilder<ProjectEntity, ProjectEntity, QSortBy> {
+  QueryBuilder<ProjectEntity, ProjectEntity, QAfterSortBy> sortByEstimate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'estimate', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ProjectEntity, ProjectEntity, QAfterSortBy>
+      sortByEstimateDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'estimate', Sort.desc);
+    });
+  }
+
   QueryBuilder<ProjectEntity, ProjectEntity, QAfterSortBy> sortByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
@@ -565,6 +645,19 @@ extension ProjectEntityQuerySortBy
 
 extension ProjectEntityQuerySortThenBy
     on QueryBuilder<ProjectEntity, ProjectEntity, QSortThenBy> {
+  QueryBuilder<ProjectEntity, ProjectEntity, QAfterSortBy> thenByEstimate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'estimate', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ProjectEntity, ProjectEntity, QAfterSortBy>
+      thenByEstimateDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'estimate', Sort.desc);
+    });
+  }
+
   QueryBuilder<ProjectEntity, ProjectEntity, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -604,6 +697,12 @@ extension ProjectEntityQuerySortThenBy
 
 extension ProjectEntityQueryWhereDistinct
     on QueryBuilder<ProjectEntity, ProjectEntity, QDistinct> {
+  QueryBuilder<ProjectEntity, ProjectEntity, QDistinct> distinctByEstimate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'estimate');
+    });
+  }
+
   QueryBuilder<ProjectEntity, ProjectEntity, QDistinct> distinctByName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -623,6 +722,12 @@ extension ProjectEntityQueryProperty
   QueryBuilder<ProjectEntity, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<ProjectEntity, int, QQueryOperations> estimateProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'estimate');
     });
   }
 

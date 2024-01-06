@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:job_timer/app/modules/project_list/controller/project_list_controller.dart';
 
-import 'home_header_actions.dart';
+import 'project_header_actions.dart';
 
-class HomeFilterHeader extends SliverPersistentHeaderDelegate {
+class ProjectFilterHeader extends SliverPersistentHeaderDelegate {
+  final ProjectListController controller;
+
+  ProjectFilterHeader({required this.controller});
+
   @override
   Widget build(
     BuildContext context,
     double shrinkOffset,
     bool overlapsContent,
   ) {
-    return const HomeHeaderActions();
+    return ProjectHeaderActions(controller: controller);
   }
 
   @override

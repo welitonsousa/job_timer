@@ -19,7 +19,7 @@ class SignController extends Cubit<SignState> {
     try {
       await _authService.signOut();
       await _authService.signInWithGoogle();
-      Modular.to.navigate(AppRouters.HOME);
+      Modular.to.navigate(AppRouters.PROJECT_LIST);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'ERROR_ABORTED_BY_USER') {
         emit(state.copyWith(status: AppStatus.error, error: 'Login cancelado'));
@@ -57,7 +57,7 @@ class SignController extends Cubit<SignState> {
         email: email,
         password: password,
       );
-      Modular.to.navigate(AppRouters.HOME);
+      Modular.to.navigate(AppRouters.PROJECT_LIST);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         emit(state.copyWith(

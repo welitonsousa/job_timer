@@ -13,7 +13,7 @@ sealed class AppConfigure {
     if (FirebaseAuth.instance.currentUser == null) {
       Modular.setInitialRoute(AppRouters.SIGN_IN);
     } else {
-      Modular.setInitialRoute(AppRouters.HOME);
+      Modular.setInitialRoute(AppRouters.PROJECT_LIST);
     }
   }
 }

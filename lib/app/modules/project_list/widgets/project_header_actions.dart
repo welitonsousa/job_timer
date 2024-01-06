@@ -1,31 +1,39 @@
 import 'package:fast_ui_kit/fast_ui_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:job_timer/app/entities/project_entity.dart';
+import 'package:job_timer/app/modules/project_list/controller/project_list_controller.dart';
 
-class HomeHeaderActions extends StatelessWidget {
-  const HomeHeaderActions({super.key});
+class ProjectHeaderActions extends StatelessWidget {
+  final ProjectListController controller;
+
+  const ProjectHeaderActions({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       color: context.theme.scaffoldBackgroundColor,
       child: Row(
         children: [
           Expanded(
             child: Container(
-              height: 50,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: Colors.grey),
               ),
-              child: DropdownMenu(
+              child: DropdownMenu<ProjectStatus>(
                 width: context.width,
                 expandedInsets: const EdgeInsets.all(8),
                 inputDecorationTheme: const InputDecorationTheme(
                   border: InputBorder.none,
                 ),
-                hintText: 'Filtrar',
-                dropdownMenuEntries: const [],
+                initialSelection: controller.state.projectStatus,
+                dropdownMenuEntries: ProjectStatus.values.map((e) {
+                  return DropdownMenuEntry(value: e, label: e.label);
+                }).toList(),
+                onSelected: (v) {
+                  controller.changeFilter(v!);
+                },
               ),
             ),
           ),

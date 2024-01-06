@@ -22,7 +22,7 @@ class RegisterController extends Cubit<RegisterState> {
       await _authService.createUserWithEmailAndPassword(
           email: email, password: password);
       // await _authService.signOut();
-      Modular.to.navigate(AppRouters.HOME);
+      Modular.to.navigate(AppRouters.PROJECT_LIST);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         emit(state.copyWith(
